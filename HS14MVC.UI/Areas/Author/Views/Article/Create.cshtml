@@ -1,0 +1,54 @@
+﻿@model HS14MVC.UI.Areas.Author.Models.ArticleVMs.ArticleCreateVM
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var api = "u3v16zgla9uinsj3xggla4t7df0nnlr9dujibio1lvp1feov";
+}
+
+
+
+<div class="container">
+    <h1 class="text-center">Yeni Makale Ekle</h1>
+
+    <form asp-action="Create" method="post" enctype="multipart/form-data" class="border border-primary rounded p-3">
+        <div class="form-group">
+            <label asp-for="Title" class="control-label">Başlık</label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Content" class="control-label">İçerik</label>
+            <textarea asp-for="Content" class="form-control" id="articleContent"></textarea>
+            <span asp-validation-for="Content" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="NewImage" class="control-label">Resim Yükle</label>
+            <input asp-for="NewImage" type="file" class="form-control-file" />
+            <span asp-validation-for="NewImage" class="text-danger"></span>
+        </div>
+
+
+        <div class="form-group">
+            <label asp-for="SubjectId" class="control-label">Konu</label>
+            <select asp-for="SubjectId" class="form-control" asp-items="Model.Subjects"></select>
+            <span asp-validation-for="SubjectId" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Yayınla</button>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.tiny.cloud/1/u3v16zgla9uinsj3xggla4t7df0nnlr9dujibio1lvp1feov/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+        tinymce.init({
+            selector: '#articleContent'
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+}

@@ -1,0 +1,168 @@
+﻿@model IEnumerable<HS14MVC.UI.Models.GuestArticleListVM>
+
+@{
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<!-- ======= Hero Slider Section ======= -->
+
+
+<section id="hero-slider" class="hero-slider">
+	<div class="container-md" data-aos="fade-in">
+		<div class="row">
+			<div class="col-12">
+				<div class="swiper sliderFeaturedPosts">
+					<div class="swiper-wrapper">
+
+						@foreach (var item in Model)
+						{
+							<div class="swiper-slide">
+								<a asp-area="" asp-controller="Home" asp-action="Read" asp-route-id="@item.Id" class="img-bg d-flex align-items-end" style="background-image: url('data:image/png;base64,@Convert.ToBase64String(item.Image)');">
+									<div class="img-bg-inner">
+										<h2>@Html.DisplayFor(modelItem => item.Title)</h2>
+										<p>
+											@{
+												var contents = item.Content;
+												if (contents.Length > 100)
+												{
+													contents = contents.Substring(0, 200) + "...";
+												}
+											}
+											@contents
+										</p>
+									</div>
+								</a>
+							</div>
+						}
+
+
+
+
+
+					</div>
+					<div class="custom-swiper-button-next">
+						<span class="bi-chevron-right"></span>
+					</div>
+					<div class="custom-swiper-button-prev">
+						<span class="bi-chevron-left"></span>
+					</div>
+
+					<div class="swiper-pagination"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- End Hero Slider Section -->
+<!-- ======= Post Grid Section ======= -->
+<section id="posts" class="posts">
+	<div class="container" data-aos="fade-up">
+		<div class="row g-5">
+
+
+
+
+			<div class="col-lg-4">
+				<div class="post-entry-1 lg">
+					<a href="single-post.html"><img src="@(string.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.ToList()[0].Image)))" alt="" class="img-fluid"></a>
+					<div class="post-meta"><span class="date">Okunma: @Model.ToList()[0].ViewCount</span> <span class="mx-1">&bullet;</span> <span>@Model.ToList()[0].CreadtedDate</span></div>
+					<h2><a asp-area="" asp-controller="Home" asp-action="Read" asp-route-id="@Model.ToList()[0].Id">@Model.ToList()[0].Title</a></h2>
+					<p class="mb-4 d-block">
+						@{
+							var content = @Model.ToList()[0].Content;
+							if (content.Length > 100)
+							{
+								content = content.Substring(0, 200) + "...";
+							}
+						}
+						@content
+					</p>
+
+					<div class="d-flex align-items-center author">
+						<div class="photo"><img src="assets/img/person-1.jpg" alt="" class="img-fluid"></div>
+						<div class="name">
+							<h3 class="m-0 p-0">@Model.ToList()[0].AuthorFirstName @Model.ToList()[0].AuthorLastName</h3>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="col-lg-8">
+				<div class="row g-5">
+					
+					<div class="col-lg-4 border-start custom-border">
+						@for (var i = 0; i < @Model.ToList().Count; i++)
+						{
+							@if (i <5 )
+							{
+							
+								<div class="post-entry-1">
+									<a asp-area="" asp-controller="Home" asp-action="Read" asp-route-id="@Model.ToList()[i].Id"><img src="@(string.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.ToList()[i].Image)))" alt="" class="img-fluid"></a>
+									<div class="post-meta"><span class="date">Okunma:@Model.ToList()[i].ViewCount</span> <span class="mx-1">&bullet;</span> <span>@Model.ToList()[i].CreadtedDate</span></div>
+									<h2><a asp-area="" asp-controller="Home" asp-action="Read" asp-route-id="@Model.ToList()[i].Id">@Model.ToList()[i].Title</a></h2>
+								</div>
+
+								i++;
+							}
+							else
+							{
+								break;
+							}
+						}
+					</div>
+
+					<div class="col-lg-4 border-start custom-border">
+						@for (var i = 1; i < @Model.ToList().Count; i++)
+						{
+							@if (i < 6)
+							{
+
+								<div class="post-entry-1">
+									<a asp-area="" asp-controller="Home" asp-action="Read" asp-route-id="@Model.ToList()[i].Id"><img src="@(string.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.ToList()[i].Image)))" alt="" class="img-fluid"></a>
+									<div class="post-meta"><span class="date">Okunma:@Model.ToList()[i].ViewCount</span> <span class="mx-1">&bullet;</span> <span>@Model.ToList()[i].CreadtedDate</span></div>
+									<h2><a asp-area="" asp-controller="Home" asp-action="Read" asp-route-id="@Model.ToList()[i].Id">@Model.ToList()[i].Title</a></h2>
+								</div>
+								i++;
+
+							}
+							else
+							{
+								break;
+							}
+						}
+					</div>
+
+					<!-- Trending Section -->
+					<div class="col-lg-4">
+
+						<div class="trending">
+							<h3>Trending</h3>
+							<ul class="trending-post">
+
+
+								@foreach (var newItem in @Model.ToList().OrderByDescending(x => x.ViewCount).Take(6))
+								{
+									<li>
+										<a asp-area="" asp-controller="Home" asp-action="Read" asp-route-id="@newItem.Id">
+											<span class="number">1</span>
+											<h3>@newItem.Title</h3>
+											<span class="author">@newItem.AuthorFirstName @newItem.AuthorLastName</span>
+										</a>
+									</li>
+								}
+							</ul>
+						</div>
+
+					</div> <!-- End Trending Section -->
+				</div>
+			</div>
+
+		</div> <!-- End .row -->
+	</div>
+</section> <!-- End Post Grid Section -->
